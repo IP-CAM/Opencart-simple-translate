@@ -120,13 +120,14 @@ function getLine($log, $abs = FALSE){
 	} 
 }
 function echo_form($log){
+	global $base_url;
 	$tmp = explode(" = ",$log["lineText"]);
 	//$len = strlen($tmp[1])-2;
 	$value = substr($tmp[1], 1, -4);
 	echo "Current line {$log["lineText"]} in file {$log["path"]}<br>";
 	echo "<p id='p1' style='font-size:  50px;'>{$value}</p><button onclick=\"copyToClipboard('#p1')\">one click copy</button><br><br>";
-	echo "<form action='' method='post'>";
-	echo "Translation: <input type='text' name='new' style='width: 500px;' required><br>";
+	echo "<form action='$base_url/index.php' method='post'>";
+	echo "Translation: <input type='text' name='new' style='width: 500px;' autofocus required><br>";
 	echo "<input type='hidden' name='line' value='{$log["line"]}'>";
 	echo "<input type='hidden' name='path' value='{$log["path"]}'>";
 	echo '<input type="submit"></form>';
@@ -145,6 +146,7 @@ HRD;
 	die();
 }
 function checkSubmit(){
+	global $base_url;
 	myecho("Checking submit<br>");
 	if(isset($_POST['new']) && !empty($_POST['new'])) $new = $_POST['new'];
 	if(isset($_POST['line']) && !empty($_POST['line'])) $line = $_POST['line'];
@@ -157,7 +159,7 @@ function checkSubmit(){
 		if(count($tmp)!= 2) die("error expoding {$log["lineText"]}");
 		$newLine = "{$tmp[0]} = '{$new}';";
 		$message .= "new line: $newLine<br>";
-		$message .= "<a href='{$_SERVER["REQUEST_URI"]}?file=".hash("md2",$path).".log&line={$log["line"]}'>Click here to redo line {$log["line"]}</a><br>";
+		$message .= "<a href='$base_url/index.php?file=".hash("md2",$path).".log&line={$log["line"]}'>Click here to redo line {$log["line"]}</a><br>";
 		if(replaceLine($log,$newLine)) $message .= "Line {$log["line"]} replaced in file {$log["path"]} from {$log["lineText"]} <br>";
 		myecho("Submitted: $new for {$log["lineText"]}<br>");
 		myecho("New line : $newLine<br>");
