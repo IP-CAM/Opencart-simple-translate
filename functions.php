@@ -30,7 +30,6 @@ function doFile($path){
 	global $filecounter;
 	if(!doneFile($path)){
 		//get file lines and log progress;
-		checkSubmit();
 		$log = logFile($path);
 		$log = getLine($log) OR die("Error getting line {$log["line"]} in file {$log["path"]}.");
 		if($log["lineText"] == "ENDOFFILE"){

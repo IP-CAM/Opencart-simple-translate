@@ -19,6 +19,8 @@ if(isset($file) && isset($line)){
 	unset($file);
 	unset($line);
 }
+
+checkSubmit();
 doDir($dir);
 myecho("$filecounter files were found");
 
